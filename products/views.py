@@ -5,8 +5,7 @@ from django.shortcuts import render
 
 def index(request):
     content = {
-        'title': 'GeekShop',
-        'name': 'GeekShop Store'
+        'title': 'GeekShop'
     }
     return render(request, 'products/index.html', content)
 
@@ -21,7 +20,7 @@ def index(request):
 '''
 def products(request):
     content = {
-        'title': 'GeekShop',
+        'title': 'GeekShop - Каталог',
         'products': [
             {'name': 'Худи черного цвета с монограммами adidas Originals', 'price': '6 090,00',
              'description': 'Мягкая ткань для свитшотов. Стиль и комфорт – это образ жизни.',
