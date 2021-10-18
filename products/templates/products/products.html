@@ -59,7 +59,7 @@
                     <div class="card h-100">
                         <a href="#">
                             <img class="card-img-top"
-                                 src="{% static 'vendor/img/products/' %}{{ product.picture }}"
+                                 src="{{ product.image.url }}"
                                  alt="">
                         </a>
                         <div class="card-body">
@@ -70,7 +70,7 @@
                             <p class="card-text">{{ product.description }}</p>
                         </div>
                         <div class="card-footer text-center">
-                            <button type="button" class="btn btn-outline-success">{{ send_to_cart }}</button>
+                            <button type="button" class="btn btn-outline-success">{{ button_basket }}</button>
                         </div>
                     </div>
                 </div>
