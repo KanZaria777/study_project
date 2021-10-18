@@ -6,7 +6,8 @@ from products.models import ProductCategory, Product
 
 def index(request):
     content = {
-        'title': 'GeekShop'
+        'title': 'GeekShop',
+        'title1': 'GeekShop Store'
     }
     return render(request, 'products/index.html', content)
 
@@ -24,6 +25,7 @@ def products(request):
         'title': 'GeekShop - Каталог',
         'products': Product.objects.all(),
         'categories': ProductCategory.objects.all(),
+        'button_basket': 'Добавить в корзину',
     }
     return render(request, 'products/products.html', content)
 
