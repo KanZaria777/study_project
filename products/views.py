@@ -25,7 +25,6 @@ def products(request):
         'title': 'GeekShop - Каталог',
         'products': Product.objects.all(),
         'categories': ProductCategory.objects.all(),
-        'button_basket': 'Добавить в корзину',
     }
     return render(request, 'products/products.html', content)
 

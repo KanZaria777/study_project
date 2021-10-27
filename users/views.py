@@ -3,6 +3,7 @@ from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
 from django.urls import reverse
 from django.contrib import auth
 from django.contrib import messages
+from baskets.models import Basket
 
 # Функции которые тут написаны господь провозгласил контроллерами
 
@@ -59,5 +60,8 @@ def profile(request):
             return HttpResponseRedirect(reverse('users:profile'))
     else:
         form = UserProfileForm(instance=request.user)
-    context = {'title': 'GeekShop - Профиль', 'form': form}
+    context = {'title': 'GeekShop - Профиль',
+               'form': form,
+               'baskets': Basket.objects.filter(user=request.user),
+               }
     return render(request, 'users/profile.html', context)
