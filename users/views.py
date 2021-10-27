@@ -2,6 +2,8 @@ from django.shortcuts import render, HttpResponseRedirect
 from users.forms import UserLoginForm, UserRegistrationForm
 from django.urls import reverse
 from django.contrib import auth
+from django.contrib import messages
+
 # Функции которые тут написаны господь провозгласил контроллерами
 
 '''
@@ -12,6 +14,8 @@ __login__
 На главную мы возвращаемся посредством reverse, можно было бы и просто, но так код более понятен.
 form.errors это временная заплатка для чтения ошибок(если таковые есть) в консоли.
 '''
+
+
 def login(request):
     if request.method == 'POST':
         form = UserLoginForm(data=request.POST)
@@ -26,8 +30,7 @@ def login(request):
                 print(form.errors)
     else:
         form = UserLoginForm()
-
-    context = {'title': 'GeekShop - Авторизация', 'form': form,}
+    context = {'title': 'GeekShop - Авторизация', 'form': form}
     return render(request, 'users/login.html', context)
 
 
@@ -36,12 +39,10 @@ def registration(request):
         form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Наши поздравления, с успешной регистрацией!')
             return HttpResponseRedirect(reverse('users:login'))
-        else:
-            print(form.errors)
     else:
         form = UserRegistrationForm()
-
     context = {'title': 'GeekShop - Регистрация', 'form': form}
     return render(request, 'users/registration.html', context)
 
