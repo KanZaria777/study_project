@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib import auth
 from django.contrib import messages
 from baskets.models import Basket
+from django.contrib.auth.decorators import login_required
 
 # Функции которые тут написаны господь провозгласил контроллерами
 
@@ -52,9 +53,10 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))
 
+@login_required
 def profile(request):
     if request.method == 'POST':
-        form = UserProfileForm(instance=request.user,files=request.FILES, data=request.POST)
+        form = UserProfileForm(instance=request.user, files=request.FILES, data=request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('users:profile'))
