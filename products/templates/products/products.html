@@ -70,7 +70,7 @@
                             <p class="card-text">{{ product.description }}</p>
                         </div>
                         <div class="card-footer text-center">
-                            <button type="button" class="btn btn-outline-success">{{ button_basket }}</button>
+                            <a class="btn btn-outline-success" href="{%  url 'baskets:basket_add' product.id %}">Добавить в корзину</a>
                         </div>
                     </div>
                 </div>

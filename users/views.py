@@ -1,7 +1,10 @@
 from django.shortcuts import render, HttpResponseRedirect
-from users.forms import UserLoginForm, UserRegistrationForm
+from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
 from django.urls import reverse
 from django.contrib import auth
+from django.contrib import messages
+from baskets.models import Basket
+
 # Функции которые тут написаны господь провозгласил контроллерами
 
 '''
@@ -12,6 +15,8 @@ __login__
 На главную мы возвращаемся посредством reverse, можно было бы и просто, но так код более понятен.
 form.errors это временная заплатка для чтения ошибок(если таковые есть) в консоли.
 '''
+
+
 def login(request):
     if request.method == 'POST':
         form = UserLoginForm(data=request.POST)
@@ -26,8 +31,7 @@ def login(request):
                 print(form.errors)
     else:
         form = UserLoginForm()
-
-    context = {'title': 'GeekShop - Авторизация', 'form': form,}
+    context = {'title': 'GeekShop - Авторизация', 'form': form}
     return render(request, 'users/login.html', context)
 
 
@@ -36,12 +40,10 @@ def registration(request):
         form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Наши поздравления, с успешной регистрацией!')
             return HttpResponseRedirect(reverse('users:login'))
-        else:
-            print(form.errors)
     else:
         form = UserRegistrationForm()
-
     context = {'title': 'GeekShop - Регистрация', 'form': form}
     return render(request, 'users/registration.html', context)
 
@@ -49,3 +51,17 @@ def registration(request):
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))
+
+def profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(instance=request.user,files=request.FILES, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('users:profile'))
+    else:
+        form = UserProfileForm(instance=request.user)
+    context = {'title': 'GeekShop - Профиль',
+               'form': form,
+               'baskets': Basket.objects.filter(user=request.user),
+               }
+    return render(request, 'users/profile.html', context)
