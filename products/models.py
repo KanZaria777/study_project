@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # модельки это как таблички в бд, только в питоне
 
 class ProductCategory(models.Model):
@@ -8,6 +9,7 @@ class ProductCategory(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Product(models.Model):
     name = models.CharField(max_length=256)
@@ -19,6 +21,7 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.name} | {self.category.name}'
+
 
 '''
     Таблица корзины товаров. По идее она должны хранить есть товар в корзине или нет, с помощью
@@ -39,5 +42,3 @@ class Basket(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     in_the_basket = models.BooleanField(default=0)
 '''
-
-
